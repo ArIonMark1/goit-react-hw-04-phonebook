@@ -1,32 +1,25 @@
 import React from 'react';
 import './SearchContacts.scss';
+import { useState, useEffect } from 'react';
 
-export default class SearchContacts extends React.Component {
-  state = {
-    filter: '',
-  };
-  handleChange = evt => {
-    const { name, value } = evt.currentTarget;
-    this.setState({ [name]: value.trim() }); // асинхрон виконається в КІНЦІ!!
-    // ------------------------------------
-    // this.props.onChange(this.state.filter); // синхронний код виконається ПЕРШИМ!
-    // ------------------------------------
-    setTimeout(() => this.props.onChange(this.state.filter), 0); // викликаємо після усіх обробок даних
-  };
+export default function SearchContacts({ onChange }) {
+  const [filter, setFilter] = useState('');
 
-  render() {
-    return (
-      <label>
-        <p>Find contact by name</p>
-        <input
-          type="text"
-          name="filter"
-          className="nameField"
-          value={this.state.filter}
-          onChange={this.handleChange}
-          placeholder="Filter contacts..."
-        ></input>
-      </label>
-    );
-  }
+  useEffect(() => {
+    onChange(filter);
+  }, [filter]);
+
+  return (
+    <label>
+      <p>Find contact by name</p>
+      <input
+        type="text"
+        name="filter"
+        className="nameField"
+        value={filter}
+        onChange={evt => setFilter(evt.currentTarget.value.trim())}
+        placeholder="Filter contacts..."
+      ></input>
+    </label>
+  );
 }
