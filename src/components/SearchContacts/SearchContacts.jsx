@@ -7,7 +7,7 @@ export default function SearchContacts({ onChange }) {
 
   useEffect(() => {
     onChange(filter);
-  }, [filter]);
+  }, [filter, onChange]);
 
   return (
     <label>
