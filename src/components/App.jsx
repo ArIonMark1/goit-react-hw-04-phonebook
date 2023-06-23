@@ -29,16 +29,13 @@ export default function App() {
   // ********************************************
 
   function receiveFormData(data) {
-    if (
-      contacts &&
-      contacts.find(
-        contact => contact.name === data.name && contact.number === data.number
-      )
-    ) {
+    const isDublicate = contacts.find(
+      contact => contact.name === data.name && contact.number === data.number
+    );
+    if (isDublicate) {
       return toast.error(`${data.name} is already in contacts.`);
     }
-    setContacts([...contacts, data]);
-    // contacts: [...contacts, data];
+    setContacts(prevContacts => [...prevContacts, data]);
     toast.success(`${data.name} added in contacts.`);
   }
   // //******************************************** */
@@ -52,7 +49,9 @@ export default function App() {
   }
 
   function deleteContact(id) {
-    setContacts(contacts => contacts.filter(contact => contact.id !== id));
+    setContacts(prevContacts =>
+      prevContacts.filter(contact => contact.id !== id)
+    );
   }
 
   return (
